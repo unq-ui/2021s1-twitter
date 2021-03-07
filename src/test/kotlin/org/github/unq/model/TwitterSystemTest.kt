@@ -13,6 +13,16 @@ class TwitterSystemTest {
         return system
     }
 
+    private fun getTweeterSystemWithTwoUsersAndOneTweetPerUser(): TwitterSystem {
+        val system = TwitterSystem()
+        system.register("juan", "juan@gmail.com", "juan", "http://image.com/1234")
+        system.register("lean", "lean@gmail.com", "lean", "http://image.com/1234")
+        system.addTweet("u_1", DraftTweet("How it started / how it going" , mutableListOf("landscape.png")))
+        Thread.sleep(1)
+        system.addTweet("u_2", DraftTweet("Hi Tweeter!" , mutableListOf("portrait.png")))
+        return system
+    }
+
     @Test
     fun registerTest() {
         val twitterSystem = TwitterSystem()
@@ -83,5 +93,74 @@ class TwitterSystemTest {
         assertFailsWith<NotFound> { system.editProfile("u_1000", "juan2", "juan2", "http://image.com/4321") }
     }
 
+    @Test
+    fun addTweetTest() {
+        val system = getTwitterSystemWithTwoUsers()
+        assertEquals(system.tweets.size, 0)
+        system.addTweet("u_1", DraftTweet("How it started / how it going" , mutableListOf("landscape.png")))
+        assertEquals(system.tweets.size, 1)
+        val tweet = system.tweets[0]
+        assertEquals(tweet.id, "t_1")
+        assertEquals(tweet.author.id, "u_1")
+        assertEquals(tweet.images, mutableListOf("landscape.png"))
+        assertEquals(tweet.text, "How it started / how it going")
+        assertEquals(tweet.likes.size, 0)
+    }
+
+    @Test
+    fun addTweetWithWrongUserIdTest() {
+        val instagramSystem = getTwitterSystemWithTwoUsers()
+        assertFailsWith<NotFound> {
+            instagramSystem.addTweet(
+                "u_10000",
+                DraftTweet("How it started / how it going" , mutableListOf("landscape.png"))
+            )
+        }
+    }
+
+    @Test
+    fun editTweetTest() {
+        val system = getTwitterSystemWithTwoUsers()
+        assertEquals(system.tweets.size, 0)
+        system.addTweet("u_1", DraftTweet("How it started / how it going" , mutableListOf("landscape.png")))
+        assertEquals(system.tweets.size, 1)
+        system.editTweet("t_1", DraftTweet("Another text" , mutableListOf("landscape2.png")))
+        val post = system.tweets[0]
+        assertEquals(post.id, "t_1")
+        assertEquals(post.author.id, "u_1")
+        assertEquals(post.text, "Another text")
+        assertEquals(post.images, mutableListOf("landscape2.png"))
+        assertEquals(post.likes.size, 0)
+    }
+
+    @Test
+    fun editPostWithWrongPostIdTest() {
+        val system = getTwitterSystemWithTwoUsers()
+        assertEquals(system.tweets.size, 0)
+        system.addTweet("u_1", DraftTweet("How it started / how it going" , mutableListOf("landscape.png")))
+        assertEquals(system.tweets.size, 1)
+        assertFailsWith<NotFound> {
+            system.editTweet(
+                "t_10000",
+                DraftTweet("New text" , mutableListOf("portrait.png"))
+            )
+        }
+    }
+
+    @Test
+    fun deleteTweetTest() {
+        val system = getTweeterSystemWithTwoUsersAndOneTweetPerUser()
+        assertEquals(system.tweets.size, 2)
+        system.deleteTweet("t_1")
+        assertEquals(system.tweets.size, 1)
+    }
+
+    @Test
+    fun deleteTweetWithWrongIdTest() {
+        val instagramSystem = getTweeterSystemWithTwoUsersAndOneTweetPerUser()
+        assertEquals(instagramSystem.tweets.size, 2)
+        instagramSystem.deleteTweet("t_1000")
+        assertEquals(instagramSystem.tweets.size, 2)
+    }
 
 }
