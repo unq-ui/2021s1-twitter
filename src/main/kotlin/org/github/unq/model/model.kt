@@ -8,3 +8,5 @@ data class Tweet(val id: String, val author: User, var text: String, var images:
 
 
 data class DraftTweet(val text: String, val images: MutableList<String> = mutableListOf())
+data class DraftReply(val text: String, val images: MutableList<String> = mutableListOf())
+

@@ -13,6 +13,16 @@ class TwitterSystemTest {
         return system
     }
 
+    private fun getTwitterSystemWithTwoUsersAndOneTweetPerUser(): TwitterSystem {
+        val system = TwitterSystem()
+        system.register("juan", "juan@gmail.com", "juan", "http://image.com/1234")
+        system.register("lean", "lean@gmail.com", "lean", "http://image.com/1234")
+        system.addTweet("u_1", DraftTweet("How it started / how it going" , mutableListOf("landscape.png")))
+        Thread.sleep(1)
+        system.addTweet("u_2", DraftTweet("How it started / how it going" , mutableListOf("landscape.png")))
+        return system
+    }
+
     private fun getTweeterSystemWithTwoUsersAndOneTweetPerUser(): TwitterSystem {
         val system = TwitterSystem()
         system.register("juan", "juan@gmail.com", "juan", "http://image.com/1234")
@@ -149,7 +159,7 @@ class TwitterSystemTest {
 
     @Test
     fun deleteTweetTest() {
-        val system = getTweeterSystemWithTwoUsersAndOneTweetPerUser()
+        val system = getTwitterSystemWithTwoUsersAndOneTweetPerUser()
         assertEquals(system.tweets.size, 2)
         system.deleteTweet("t_1")
         assertEquals(system.tweets.size, 1)
@@ -157,10 +167,58 @@ class TwitterSystemTest {
 
     @Test
     fun deleteTweetWithWrongIdTest() {
-        val instagramSystem = getTweeterSystemWithTwoUsersAndOneTweetPerUser()
+        val instagramSystem = getTwitterSystemWithTwoUsersAndOneTweetPerUser()
         assertEquals(instagramSystem.tweets.size, 2)
         instagramSystem.deleteTweet("t_1000")
         assertEquals(instagramSystem.tweets.size, 2)
     }
 
+    @Test
+    fun addReplyTweetTest() {
+        val twitterSystem = getTwitterSystemWithTwoUsersAndOneTweetPerUser()
+        val tweet = twitterSystem.addReply("t_1", "u_2", DraftReply("comment"))
+        assertEquals(tweet.id, "t_1")
+        assertEquals(tweet.replies.size, 1)
+        val tweetReply = tweet.replies[0]
+        assertEquals(tweetReply.user.id, "u_2")
+        assertEquals(tweetReply.text, "comment")
+    }
+/*
+    @Test
+    fun addCommentWithWrongUserIdTest() {
+        val twitterSystem = getTwitterSystemWithTwoUsersAndOneTweetPerUser()
+        assertFailsWith<NotFound> { twitterSystem.addComment("t_1", "u_20000", DraftReply("comment")) }
+    }
+
+    @Test
+    fun updateLikeTest() {
+        val twitterSystem = getTwitterSystemWithTwoUsersAndOneTweetPerUser()
+        val originalPost = twitterSystem.getPost("p_1")
+        assertEquals(originalPost.likes.size, 0)
+        val post = twitterSystem.updateLike("p_1", "u_2")
+        assertEquals(post.likes.size, 1)
+    }
+
+    @Test
+    fun updateLikeTwoTimesTest() {
+        val twitterSystem = getTwitterSystemWithTwoUsersAndOneTweetPerUser()
+        val originalPost = twitterSystem.getPost("p_1")
+        assertEquals(originalPost.likes.size, 0)
+        val firstTimePost = twitterSystem.updateLike("p_1", "u_2")
+        assertEquals(firstTimePost.likes.size, 1)
+        val secondTimePost = twitterSystem.updateLike("p_1", "u_2")
+        assertEquals(secondTimePost.likes.size, 0)
+    }
+
+    @Test
+    fun updateLikeWithWrongPostIdTest() {
+        val twitterSystem = getTwitterSystemWithTwoUsersAndOneTweetPerUser()
+        assertFailsWith<NotFound> { twitterSystem.updateLike("p_10000", "u_2") }
+    }
+
+    @Test
+    fun updateLikeWithWrongUserIdTest() {
+        val twitterSystem = getTwiterSystemWithTwoUsersAndOneTweetPerUser()
+        assertFailsWith<NotFound> { twitterSystem.updateLike("p_1", "u_20000") }
+    }*/
 }

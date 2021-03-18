@@ -45,6 +45,10 @@ class TwitterSystem(val users: MutableList<User> = mutableListOf(), val tweets: 
 
     fun getTweet(postId: String): Tweet = tweets.find { it.id == postId } ?: throw NotFound("Tweet")
 
+    fun addReply(twitId: String, userId: String, draftReply: DraftReply){
+
+    }
+
     private fun existUserWithEmail(email: String) {
         if (users.any { it.email == email }) throw UsedEmail()
     }
