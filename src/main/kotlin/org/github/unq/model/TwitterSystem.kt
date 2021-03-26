@@ -27,7 +27,8 @@ class TwitterSystem(val users: MutableList<User> = mutableListOf(), val tweets: 
 
     fun addTweet(userId: String, draftTweet: DraftTweet): Tweet {
         val user = getUser(userId)
-        val tweet = Tweet(idGenerator.nextTweetId(), user,draftTweet.text, draftTweet.images, LocalDateTime.now(), mutableListOf(), mutableListOf())
+        val tweet = Tweet(id= idGenerator.nextTweetId(), author= user, text= draftTweet.text, images= draftTweet.images, date= LocalDateTime.now())
+        user.tweets.add(tweet)
         tweets.add(tweet)
         return tweet
     }
@@ -45,8 +46,23 @@ class TwitterSystem(val users: MutableList<User> = mutableListOf(), val tweets: 
 
     fun getTweet(postId: String): Tweet = tweets.find { it.id == postId } ?: throw NotFound("Tweet")
 
-    fun addReply(twitId: String, userId: String, draftReply: DraftReply){
+    fun addReply(tweetId: String, userId: String, draftReply: DraftReply): Tweet{
+        val tweet = getTweet(tweetId)
+        val user = getUser(userId)
+        val retweet = Tweet(id= idGenerator.nextTweetId(), author= user, text= draftReply.text, images= draftReply.images, reply= tweet, date= LocalDateTime.now())
+        user.tweets.add(retweet)
+        tweets.add(retweet)
+        return retweet
+    }
 
+    fun addComment(tweetId: String, userId: String, commetTweet: DraftTweet) : Tweet {
+        val user = getUser(userId)
+        val tweet = getTweet(tweetId)
+        val comment = Tweet(id= idGenerator.nextTweetId(), author= user, text= commetTweet.text, images= commetTweet.images, date= LocalDateTime.now())
+        tweet.comments.add(comment)
+        user.tweets.add(comment)
+        tweets.add(comment)
+        return comment
     }
 
     private fun existUserWithEmail(email: String) {
