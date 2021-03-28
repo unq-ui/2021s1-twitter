@@ -76,6 +76,41 @@ class TwitterSystem(val users: MutableList<User> = mutableListOf(), val tweets: 
         return tweet
     }
 
+    fun searchByTag(tag: String): List<Tweet> {
+        if (!tag.startsWith("#")) throw NotATag()
+        return tweets.filter { it.text.contains(tag) }.sortedByDescending { it.date }
+    }
+
+    fun searchByUserName(name: String): List<Tweet> {
+        val userIds = users.filter { it.name.contains(name, true) }
+        return tweets.filter { userIds.contains(it.author) }.sortedByDescending { it.date }
+    }
+
+    fun searchByUserId(userId: String): List<Tweet> {
+        val user = getUser(userId)
+        return tweets.filter { it.author == user }.sortedByDescending { it.date }
+    }
+
+    fun searchByName(name: String): List<User> {
+        if (name.isBlank()) return listOf()
+        return users.filter { it.name.contains(name, true) }.sortedBy { it.name }
+    }
+
+    fun timeline(userId: String): List<Tweet> {
+        val user = getUser(userId)
+        return tweets.filter { user.followers.contains(it.author) }.sortedByDescending { it.date }
+    }
+
+    fun updateFollower(fromUserId: String, toUserId: String) {
+        val fromUser = getUser(fromUserId)
+        val toUser = getUser(toUserId)
+        if (fromUser.followers.contains(toUser)) {
+            fromUser.followers.remove(toUser)
+        } else {
+            fromUser.followers.add(toUser)
+        }
+    }
+
     private fun existUserWithEmail(email: String) {
         if (users.any { it.email == email }) throw UsedEmail()
     }

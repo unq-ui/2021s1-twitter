@@ -17,7 +17,7 @@ class TwitterSystemTest {
         val system = TwitterSystem()
         system.register("juan", "juan@gmail.com", "juan", "http://image.com/1234")
         system.register("lean", "lean@gmail.com", "lean", "http://image.com/1234")
-        system.addTweet("u_1", DraftTweet("How it started / how it going" , mutableListOf("landscape.png")))
+        system.addTweet("u_1", DraftTweet("How it started / how it going #description" , mutableListOf("landscape.png")))
         Thread.sleep(1)
         system.addTweet("u_2", DraftTweet("How it started / how it going" , mutableListOf("landscape.png")))
         return system
@@ -238,5 +238,113 @@ class TwitterSystemTest {
     fun updateLikeWithWrongUserIdTest() {
         val twitterSystem = getTwitterSystemWithTwoUsersAndOneTweetPerUser()
         assertFailsWith<NotFound> { twitterSystem.updateLike("t_1", "u_20000") }
+    }
+
+    @Test
+    fun updateFollowerTest() {
+        val twitterSystem = getTwitterSystemWithTwoUsersAndOneTweetPerUser()
+        val originalUser = twitterSystem.getUser("u_1")
+        assertEquals(originalUser.followers.size, 0)
+        twitterSystem.updateFollower("u_1", "u_2")
+        assertEquals(originalUser.followers.size, 1)
+    }
+
+    @Test
+    fun updateFollowerTwoTimesTest() {
+        val twitterSystem = getTwitterSystemWithTwoUsersAndOneTweetPerUser()
+        val originalUser = twitterSystem.getUser("u_1")
+        assertEquals(originalUser.followers.size, 0)
+        twitterSystem.updateFollower("u_1", "u_2")
+        assertEquals(originalUser.followers.size, 1)
+        twitterSystem.updateFollower("u_1", "u_2")
+        assertEquals(originalUser.followers.size, 0)
+    }
+
+    @Test
+    fun updateFollowerWithWrongFromUserIdTest() {
+        val twitterSystem = getTwitterSystemWithTwoUsersAndOneTweetPerUser()
+        assertFailsWith<NotFound> { twitterSystem.updateFollower("u_10000", "u_2") }
+    }
+
+    @Test
+    fun updateFollowerWithWrongToUserIdTest() {
+        val twitterSystem = getTwitterSystemWithTwoUsersAndOneTweetPerUser()
+        assertFailsWith<NotFound> { twitterSystem.updateFollower("u_1", "u_20000") }
+    }
+
+    @Test
+    fun searchByTagTest() {
+        val twitterSystem = getTwitterSystemWithTwoUsersAndOneTweetPerUser()
+        val posts = twitterSystem.searchByTag("#description")
+        assertEquals(posts.size, 1)
+        val post = posts[0]
+        assertEquals(post.author.id, "u_1")
+    }
+
+    @Test
+    fun searchByTagWithWrongTagFormatTest() {
+        val twitterSystem = getTwitterSystemWithTwoUsersAndOneTweetPerUser()
+        assertFailsWith<NotATag> { twitterSystem.searchByTag("description") }
+    }
+
+    @Test
+    fun searchByUserNameTest() {
+        val twitterSystem = getTwitterSystemWithTwoUsersAndOneTweetPerUser()
+        val tweets = twitterSystem.searchByUserName("a")
+        assertEquals(tweets.size, 2)
+        assertEquals(tweets[0].author.id, "u_2")
+        assertEquals(tweets[1].author.id, "u_1")
+    }
+
+    @Test
+    fun searchByUserIdTest() {
+        val twitterSystem = getTwitterSystemWithTwoUsersAndOneTweetPerUser()
+        val tweets = twitterSystem.searchByUserId("u_1")
+        assertEquals(tweets.size, 1)
+        assertEquals(tweets[0].author.id, "u_1")
+    }
+
+    @Test
+    fun timelineTest() {
+        val twitterSystem = getTwitterSystemWithTwoUsersAndOneTweetPerUser()
+        twitterSystem.updateFollower("u_1", "u_2")
+        val posts = twitterSystem.timeline("u_1")
+        assertEquals(posts.size, 1)
+        assertEquals(posts[0].author.id, "u_2")
+    }
+
+    @Test
+    fun timelineWithWrongUserIdTest() {
+        val twitterSystem = getTwitterSystemWithTwoUsersAndOneTweetPerUser()
+        assertFailsWith<NotFound> { twitterSystem.timeline("u_1000") }
+    }
+
+    @Test
+    fun searchByName() {
+        val twitterSystem = getTwitterSystemWithTwoUsersAndOneTweetPerUser()
+        val result = twitterSystem.searchByName("ju")
+        assertEquals(result.size, 1)
+        assertEquals(result[0].name, "juan")
+    }
+
+    @Test
+    fun searchByNameWithoutName() {
+        val twitterSystem = getTwitterSystemWithTwoUsersAndOneTweetPerUser()
+        val result = twitterSystem.searchByName("")
+        assertEquals(result.size, 0)
+    }
+
+    @Test
+    fun searchByNameOnlySpacesName() {
+        val twitterSystem = getTwitterSystemWithTwoUsersAndOneTweetPerUser()
+        val result = twitterSystem.searchByName("   ")
+        assertEquals(result.size, 0)
+    }
+
+    @Test
+    fun searchByNameWithSameLetter() {
+        val twitterSystem = getTwitterSystemWithTwoUsersAndOneTweetPerUser()
+        val result = twitterSystem.searchByName("a")
+        assertEquals(result.size, 2)
     }
 }
