@@ -207,37 +207,36 @@ class TwitterSystemTest {
         assertEquals(2, author.tweets.size)
         assertEquals(commentTweet, originalTweet.comments[0])
     }
-/*
+
     @Test
     fun updateLikeTest() {
         val twitterSystem = getTwitterSystemWithTwoUsersAndOneTweetPerUser()
-        val originalPost = twitterSystem.getTweet("t_1")
-        assertEquals(0, originalPost.likes.size)
-        val post = twitterSystem.updateLike("t_1", "u_2")
-        assertEquals(post.likes.size, 1)
+        val originalTweet = twitterSystem.getTweet("t_1")
+        assertEquals(0, originalTweet.likes.size)
+        val tweet = twitterSystem.updateLike("t_1", "u_2")
+        assertEquals(1, tweet.likes.size)
     }
 
-@Test
-fun updateLikeTwoTimesTest() {
-    val twitterSystem = getTwitterSystemWithTwoUsersAndOneTweetPerUser()
-    val originalPost = twitterSystem.getPost("p_1")
-    assertEquals(originalPost.likes.size, 0)
-    val firstTimePost = twitterSystem.updateLike("p_1", "u_2")
-    assertEquals(firstTimePost.likes.size, 1)
-    val secondTimePost = twitterSystem.updateLike("p_1", "u_2")
-    assertEquals(secondTimePost.likes.size, 0)
-}
+    @Test
+    fun updateLikeTwoTimesTest() {
+        val twitterSystem = getTwitterSystemWithTwoUsersAndOneTweetPerUser()
+        val originalTweet = twitterSystem.getTweet("t_1")
+        assertEquals(originalTweet.likes.size, 0)
+        val firstTimePost = twitterSystem.updateLike("t_1", "u_2")
+        assertEquals(firstTimePost.likes.size, 1)
+        val secondTimePost = twitterSystem.updateLike("t_1", "u_2")
+        assertEquals(secondTimePost.likes.size, 0)
+    }
 
-@Test
-fun updateLikeWithWrongPostIdTest() {
-    val twitterSystem = getTwitterSystemWithTwoUsersAndOneTweetPerUser()
-    assertFailsWith<NotFound> { twitterSystem.updateLike("p_10000", "u_2") }
-}
+    @Test
+    fun updateLikeWithWrongTweetIdTest() {
+        val twitterSystem = getTwitterSystemWithTwoUsersAndOneTweetPerUser()
+        assertFailsWith<NotFound> { twitterSystem.updateLike("t_10000", "u_2") }
+    }
 
-@Test
-fun updateLikeWithWrongUserIdTest() {
-    val twitterSystem = getTwiterSystemWithTwoUsersAndOneTweetPerUser()
-    assertFailsWith<NotFound> { twitterSystem.updateLike("p_1", "u_20000") }
-}
- */
+    @Test
+    fun updateLikeWithWrongUserIdTest() {
+        val twitterSystem = getTwitterSystemWithTwoUsersAndOneTweetPerUser()
+        assertFailsWith<NotFound> { twitterSystem.updateLike("t_1", "u_20000") }
+    }
 }

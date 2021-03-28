@@ -65,6 +65,17 @@ class TwitterSystem(val users: MutableList<User> = mutableListOf(), val tweets: 
         return comment
     }
 
+    fun updateLike(tweetId: String, userId: String) : Tweet{
+        val tweet = getTweet(tweetId)
+        val user = getUser(userId)
+        if (tweet.likes.contains(user)) {
+            tweet.likes.remove(user)
+            return tweet
+        }
+        tweet.likes.add(user)
+        return tweet
+    }
+
     private fun existUserWithEmail(email: String) {
         if (users.any { it.email == email }) throw UsedEmail()
     }
