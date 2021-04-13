@@ -45,9 +45,9 @@ val a1 = system.register("Name 1","name1@gmail.com", "pass1","https://pix.exampl
 val a2 = system.register("Name 2","name2@gmail.com", "pass2","https://pix.example/2.png")
 val a3 = system.register("Name 3","name3@gmail.com", "pass3","https://pix.example/3.png")
 
-system.addPost(a1.id, DraftTweet("description1", mutableListOf("https://imgageLink.com/portrait1.png", "https://imgageLink.com/landscape1.png")))
-system.addPost(a2.id, DraftTweet("description2", mutableListOf("https://imgageLink.com/portrait2.png", "https://imgageLink.com/landscape2.png")))
-system.addPost(a3.id, DraftTweet("description3", mutableListOf("https://imgageLink.com/portrait3.png", "https://imgageLink.com/landscape3.png")))
+system.addTweet(a1.id, DraftTweet("description1", mutableListOf("https://imgageLink.com/portrait1.png", "https://imgageLink.com/landscape1.png")))
+system.addTweet(a2.id, DraftTweet("description2", mutableListOf("https://imgageLink.com/portrait2.png", "https://imgageLink.com/landscape2.png")))
+system.addTweet(a3.id, DraftTweet("description3", mutableListOf("https://imgageLink.com/portrait3.png", "https://imgageLink.com/landscape3.png")))
 ```
 
 O puede utilizar el _system_ pre-cargado por la cátedra:
@@ -95,7 +95,7 @@ fun updateLike(tweetId: String, userId: String): Tweet
 fun updateFollower(fromUserId: String, toUserId: String): Unit
 
 // @Throw NotATag si el tag parametro no contine `#`
-fun searchByTag(tag: String): List<Post>
+fun searchByTag(tag: String): List<Tweet>
 
 fun searchByUserName(name: String): List<Tweet>
 
@@ -123,7 +123,7 @@ data class User(
 )
 ```
 
-### Post
+### Tweet
 
 Es el tweet ya creado
 
@@ -155,3 +155,54 @@ Es el reply de un tweet antes de ser guardado por el sistema. (Luego se genera u
 ```kotlin
 data class DraftReply(val text: String, val images: MutableList<String> = mutableListOf())
 ```
+
+## Parte 1: Interfaz Desktop con Arena
+
+Se debe realizar una aplicación de escritorio utilizando [Arena Framework](http://arena.uqbar-project.org/).
+Se debe armar un **ABM de Tweets** en donde el usuario (`User`) se debe poder.
+_loguear_ **(no hace falta registrarse)** y crear, modificar y eliminar sus twiits.
+
+_Algunas aclaraciones:_
+- Solo se deben poder cargar hasta 4 imagenes en los tweets.
+- Para evitar complejizar la ventana de creación de Tweets, las imagenes no es necesario representarlas como listas. Se pueden utilizar 4 campos de textos y con estos construir la lista final en el modelo. 
+
+> Para poder _loguearse_ se pueden agregar los usuarios al `TwitterSystem`
+> de forma _hardcodeada_ en el código, utilizando la función `register`.
+> Ejemplo:
+>
+> ```kotlin
+> val system = TwitterSystem()
+> system.register("Jon Snow", "jon@snow.com", "ghost", "https://bit.ly/3496Vje")
+> ```
+
+### Ejemplos de Ventanas
+
+> Están ventanas son a modo de ejemplo para que se comprenda la funcionalidad.
+> El alumno tiene total libertad de diseño siempre y cuando se mantenga la funcionalidad.
+
+#### Login
+
+![Login](docs/images/login.png)
+
+#### Vista del usuario
+
+![User List](docs/images/user.png)
+
+#### Editar informacion del usuario
+
+![Edit User](docs/images/editUser.png)
+
+#### Agregar y editar un tweet
+
+> Cuando se edita un tweet se deben cargar los datos previos.
+
+![Agregar o editar un Tweet](docs/images/addOrEdit.png)
+
+
+#### Confirmación al eliminar un Tweet
+
+![Eliminar Tweet Confirmación](docs/images/delete.png)
+
+#### Opcional
+
+* Hacer el registro de usuarios.
