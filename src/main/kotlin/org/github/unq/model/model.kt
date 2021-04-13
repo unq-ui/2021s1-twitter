@@ -10,7 +10,7 @@ data class User(
     var image: String,
     val followers: MutableList<User>,
     val tweets: MutableList<Tweet> = mutableListOf()
-    )
+)
 
 data class Tweet(
     val id: String,
@@ -21,7 +21,7 @@ data class Tweet(
     val date: LocalDateTime,
     val comments: MutableList<Tweet> = mutableListOf(),
     val likes: MutableList<User> = mutableListOf()
-    )
+)
 
 data class DraftTweet(val text: String, val images: MutableList<String> = mutableListOf())
 data class DraftReply(val text: String, val images: MutableList<String> = mutableListOf())

@@ -4,7 +4,7 @@ import org.github.unq.model.DraftTweet
 import org.github.unq.model.TwitterSystem
 import kotlin.random.Random
 
-val photos = getPhotos()
+val photos = getTweets()
 val comments = getComments()
 val users = getUsers()
 val random = Random(1001)

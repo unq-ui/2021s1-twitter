@@ -44,7 +44,7 @@ class TwitterSystem(val users: MutableList<User> = mutableListOf(), val tweets: 
         tweets.removeIf { it.id == tweetId }
     }
 
-    fun getTweet(postId: String): Tweet = tweets.find { it.id == postId } ?: throw NotFound("Tweet")
+    fun getTweet(tweetId: String): Tweet = tweets.find { it.id == tweetId } ?: throw NotFound("Tweet")
 
     fun addReply(tweetId: String, userId: String, draftReply: DraftReply): Tweet{
         val tweet = getTweet(tweetId)

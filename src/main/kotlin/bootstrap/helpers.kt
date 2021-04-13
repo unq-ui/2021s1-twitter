@@ -4,7 +4,7 @@ import org.github.unq.model.DraftTweet
 
 data class DataUser(var name: String, val email: String, var password: String, var image: String)
 
-fun getPhotos(): List<DraftTweet> {
+fun getTweets(): List<DraftTweet> {
     return listOf(
         DraftTweet(images=mutableListOf("https://images.pexels.com/photos/2102649/pexels-photo-2102649.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800", "https://images.pexels.com/photos/2102649/pexels-photo-2102649.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200"), text=  "Lorem ipsum dolor sit amet consectetur, adipiscing elit porttitor turpis."),
         DraftTweet(images=mutableListOf("https://images.pexels.com/photos/3850561/pexels-photo-3850561.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800", "https://images.pexels.com/photos/3850561/pexels-photo-3850561.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200"), text=  "#Vulputate #nec rhoncus aptent #ornare nunc rutrum, arcu nam nostra #sollicitudin convallis."),
