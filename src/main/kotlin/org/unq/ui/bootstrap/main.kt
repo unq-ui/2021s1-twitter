@@ -1,11 +1,10 @@
-package bootstrap
+package org.unq.ui.bootstrap
 
-import org.github.unq.model.DraftTweet
-import org.github.unq.model.TwitterSystem
+import org.unq.ui.model.TwitterSystem
 import kotlin.random.Random
 
 val photos = getTweets()
-val comments = getComments()
+val commentTweets = getCommentTweets()
 val users = getUsers()
 val random = Random(1001)
 
@@ -30,14 +29,16 @@ private fun addFollowers(twitterSystem: TwitterSystem) {
     }
 }
 
-private fun addComments(twitterSystem: TwitterSystem) {
-    twitterSystem.tweets.forEach { post ->
-        val selectedComments = List(7) { comments[random.nextInt(0, comments.size - 1)] }.toSet().toList()
-        selectedComments.forEach {
+private fun addCommentTweets(twitterSystem: TwitterSystem){
+    val tweets = twitterSystem.tweets.toMutableList()
+    tweets.forEach{ tweet ->
+        val draftTweets = List(5) { commentTweets[random.nextInt(0, commentTweets.size - 1)] }.toSet().toList()
+        draftTweets.forEach{
             val user = twitterSystem.users[random.nextInt(0, twitterSystem.users.size - 1)]
-            twitterSystem.addComment(post.id, user.id, DraftTweet(it))
+            twitterSystem.addComment(tweet.id,user.id,it)
         }
     }
+
 }
 
 private fun addLikes(twitterSystem: TwitterSystem) {
@@ -55,7 +56,7 @@ fun getTwitterSystem(): TwitterSystem {
     addUsers(twitterSystem)
     addPhotos(twitterSystem)
     addFollowers(twitterSystem)
-    addComments(twitterSystem)
+    addCommentTweets(twitterSystem)
     addLikes(twitterSystem)
     return twitterSystem
 }

@@ -1,4 +1,4 @@
-package org.github.unq.model
+package org.unq.ui.model
 
 import java.time.LocalDateTime
 

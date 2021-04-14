@@ -1,4 +1,4 @@
-package org.github.unq.model
+package org.unq.ui.model
 
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -160,9 +160,12 @@ class TwitterSystemTest {
     @Test
     fun deleteTweetTest() {
         val system = getTwitterSystemWithTwoUsersAndOneTweetPerUser()
+        val tweet = system.getTweet("t_1")
+        assertEquals(tweet.author.tweets.size,1)
         assertEquals(system.tweets.size, 2)
-        system.deleteTweet("t_1")
+        system.deleteTweet(tweet.id)
         assertEquals(system.tweets.size, 1)
+        assertEquals(system.getUser(tweet.author.id).tweets.size,0)
     }
 
     @Test
