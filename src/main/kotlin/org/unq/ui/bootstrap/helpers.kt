@@ -1,6 +1,6 @@
-package bootstrap
+package org.unq.ui.bootstrap
 
-import org.github.unq.model.DraftTweet
+import org.unq.ui.model.DraftTweet
 
 data class DataUser(var name: String, val email: String, var password: String, var image: String)
 
@@ -570,28 +570,28 @@ fun getTweets(): List<DraftTweet> {
 }
 
 
-fun getComments(): List<String> {
+fun getCommentTweets(): List<DraftTweet> {
     return listOf(
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-        "Nullam pharetra libero condimentum lacinia, cubilia elementum.",
-        "Velit bibendum pellentesque fermentum dignissim placerat, orci imperdiet eu nisi.",
-        "Urna luctus nec dignissim conubia dictumst, condimentum cum sodales.",
-        "Porttitor consequat quisque vehicula nisl, augue orci fringilla.",
-        "Pulvinar molestie mollis justo magna, dictumst nam ultricies.",
-        "At class tortor vivamus erat auctor, justo hendrerit sapien.",
-        "Facilisi quis netus posuere, pulvinar congue ligula magnis, potenti quisque.",
-        "Aliquet libero faucibus nullam, facilisi ultrices pellentesque per, ad orci.",
-        "Rutrum aptent montes a donec sapien, nulla lectus feugiat cubilia.",
-        "Maecenas fusce aenean tincidunt sem, phasellus vestibulum.",
-        "Ut nunc tincidunt sem tempus, conubia curae.",
-        "Mauris nullam etiam phasellus nec semper, posuere hac duis convallis.",
-        "Auctor et diam porttitor volutpat, in erat nullam.",
-        "Primis mollis nisi id ornare inceptos, tortor posuere ante imperdiet.",
-        "Luctus magnis tellus congue nam commodo, morbi dis id.",
-        "Parturient iaculis habitant at nascetur pharetra, sapien mollis arcu.",
-        "Mollis urna euismod class enim, porta proin vulputate.",
-        "Ut congue nec interdum feugiat, est purus proin.",
-        "Justo tellus imperdiet hac senectus fringilla, proin vel nostra."
+        DraftTweet("Lorem ipsum dolor sit amet, consectetur adipiscing elit."),
+        DraftTweet("Nullam pharetra libero condimentum lacinia, cubilia elementum."),
+        DraftTweet("Velit bibendum pellentesque fermentum dignissim placerat, orci imperdiet eu nisi."),
+        DraftTweet("Urna luctus nec dignissim conubia dictumst, condimentum cum sodales."),
+        DraftTweet("Porttitor consequat quisque vehicula nisl, augue orci fringilla."),
+        DraftTweet("Pulvinar molestie mollis justo magna, dictumst nam ultricies."),
+        DraftTweet("At class tortor vivamus erat auctor, justo hendrerit sapien."),
+        DraftTweet("Facilisi quis netus posuere, pulvinar congue ligula magnis, potenti quisque."),
+        DraftTweet("Aliquet libero faucibus nullam, facilisi ultrices pellentesque per, ad orci."),
+        DraftTweet("Rutrum aptent montes a donec sapien, nulla lectus feugiat cubilia."),
+        DraftTweet("Maecenas fusce aenean tincidunt sem, phasellus vestibulum."),
+        DraftTweet("Ut nunc tincidunt sem tempus, conubia curae."),
+        DraftTweet("Mauris nullam etiam phasellus nec semper, posuere hac duis convallis."),
+        DraftTweet("Auctor et diam porttitor volutpat, in erat nullam."),
+        DraftTweet("Primis mollis nisi id ornare inceptos, tortor posuere ante imperdiet."),
+        DraftTweet("Luctus magnis tellus congue nam commodo, morbi dis id."),
+        DraftTweet("Parturient iaculis habitant at nascetur pharetra, sapien mollis arcu."),
+        DraftTweet("Mollis urna euismod class enim, porta proin vulputate."),
+        DraftTweet("Ut congue nec interdum feugiat, est purus proin."),
+        DraftTweet("Justo tellus imperdiet hac senectus fringilla, proin vel nostra.")
     )
 }
 

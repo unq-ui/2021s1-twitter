@@ -23,9 +23,9 @@ Agregar la dependencia:
 
 ```xml
 <dependency>
-    <groupId>com.github.unq-ui</groupId>
-    <artifactId>2021s1-twitter</artifactId>
-    <version>1.0.0</version>
+	    <groupId>com.github.unq-ui</groupId>
+	    <artifactId>2021s1-twitter</artifactId>
+	    <version>1.0.2</version>
 </dependency>
 ```
 

@@ -1,4 +1,4 @@
-package org.github.unq.model
+package org.unq.ui.model
 
 import java.time.LocalDateTime
 
@@ -41,12 +41,13 @@ class TwitterSystem(val users: MutableList<User> = mutableListOf(), val tweets: 
     }
 
     fun deleteTweet(tweetId: String) {
+        getTweet(tweetId).author.tweets.removeIf { it.id == tweetId }
         tweets.removeIf { it.id == tweetId }
     }
 
     fun getTweet(tweetId: String): Tweet = tweets.find { it.id == tweetId } ?: throw NotFound("Tweet")
 
-    fun addReply(tweetId: String, userId: String, draftReply: DraftReply): Tweet{
+    fun addReply(tweetId: String, userId: String, draftReply: DraftReply): Tweet {
         val tweet = getTweet(tweetId)
         val user = getUser(userId)
         val retweet = Tweet(id= idGenerator.nextTweetId(), author= user, text= draftReply.text, images= draftReply.images, reply= tweet, date= LocalDateTime.now())
@@ -65,7 +66,7 @@ class TwitterSystem(val users: MutableList<User> = mutableListOf(), val tweets: 
         return comment
     }
 
-    fun updateLike(tweetId: String, userId: String) : Tweet{
+    fun updateLike(tweetId: String, userId: String) : Tweet {
         val tweet = getTweet(tweetId)
         val user = getUser(userId)
         if (tweet.likes.contains(user)) {
