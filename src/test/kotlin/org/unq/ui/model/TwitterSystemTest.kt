@@ -172,7 +172,12 @@ class TwitterSystemTest {
     fun deleteTweetWithWrongIdTest() {
         val instagramSystem = getTwitterSystemWithTwoUsersAndOneTweetPerUser()
         assertEquals(instagramSystem.tweets.size, 2)
-        instagramSystem.deleteTweet("t_1000")
+        assertFailsWith<NotFound>(
+            message = "No found Tweet",
+            block = {
+                instagramSystem.deleteTweet("t_1000")
+            }
+        )
         assertEquals(instagramSystem.tweets.size, 2)
     }
 
