@@ -186,7 +186,7 @@ _Algunas aclaraciones:_
 
 #### Vista del usuario
 
-![User List](docs/images/user.png)
+![User List](docs/images/user2.png)
 
 #### Editar informacion del usuario
 
@@ -196,7 +196,7 @@ _Algunas aclaraciones:_
 
 > Cuando se edita un tweet se deben cargar los datos previos.
 
-![Agregar o editar un Tweet](docs/images/addOrEdit.png)
+![Agregar o editar un Tweet](docs/images/addOrEdit2.png)
 
 
 #### Confirmación al eliminar un Tweet
